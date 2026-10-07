@@ -67,7 +67,6 @@ pub fn datasource_register(vm: &mut dyn BxVM, args: &[BxValue]) -> Result<BxValu
     let driver_name = config.driver.to_lowercase();
 
     use crate::datasource::drivers::postgres::PostgresDriver;
-    use crate::datasource::drivers::sqlite::SqliteDriver;
     match driver_name.as_str() {
         "postgresql" | "postgres" => {
             let driver = PostgresDriver::new(&config)
@@ -75,15 +74,9 @@ pub fn datasource_register(vm: &mut dyn BxVM, args: &[BxValue]) -> Result<BxValu
             registry::register(&name, Arc::new(driver));
             return Ok(BxValue::new_bool(true));
         }
-        "sqlite" => {
-            let driver = SqliteDriver::new(&config)
-                .map_err(|e| format!("Failed to create SQLite datasource '{}': {}", name, e))?;
-            registry::register(&name, Arc::new(driver));
-            return Ok(BxValue::new_bool(true));
-        }
         other => {
             return Err(format!(
-                "Unknown datasource driver: '{}'. Supported: postgresql, sqlite",
+                "Unknown datasource driver: '{}'. Supported: postgresql",
                 other
             ));
         }

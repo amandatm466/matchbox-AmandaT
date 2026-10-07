@@ -1107,12 +1107,6 @@ fn datasource_select() {
     run_ds_script("datasource_select.bxs");
 }
 
-#[test]
-#[cfg(feature = "bif-datasource")]
-fn sqlite_select() {
-    run_ds_script("sqlite_select.bxs");
-}
-
 /// Full table scan: users and products tables with type assertions.
 #[test]
 #[cfg(feature = "bif-datasource")]
