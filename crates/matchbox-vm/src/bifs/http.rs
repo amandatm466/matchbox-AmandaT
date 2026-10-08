@@ -55,7 +55,9 @@ fn request_timeout(
     }
     let seconds = vm.struct_get(spec, key).as_number();
     let invalid = || {
-        format!("http() option '{key}' must be a non-negative finite number of seconds within the supported clock range")
+        format!(
+            "http() option '{key}' must be a non-negative finite number of seconds within the supported clock range"
+        )
     };
     let duration = Duration::try_from_secs_f64(seconds).map_err(|_| invalid())?;
     #[cfg(not(target_arch = "wasm32"))]

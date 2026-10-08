@@ -237,12 +237,14 @@ fn http_existing_calls_and_response_shapes_work_with_request_controls() {
         .iter()
         .find(|request| request.starts_with("POST "))
         .unwrap();
-    assert!(post
-        .to_ascii_lowercase()
-        .contains("authorization: bearer loopback-test-secret"));
-    assert!(post
-        .to_ascii_lowercase()
-        .contains("content-type: application/json"));
+    assert!(
+        post.to_ascii_lowercase()
+            .contains("authorization: bearer loopback-test-secret")
+    );
+    assert!(
+        post.to_ascii_lowercase()
+            .contains("content-type: application/json")
+    );
     assert!(post.ends_with(r#"{"model":"test"}"#));
 }
 
@@ -383,14 +385,18 @@ fn http_no_proxy_bypasses_environment_proxies_per_request() {
     ));
     let direct_requests = direct.join().unwrap();
     assert_eq!(direct_requests.len(), 1);
-    assert!(direct_requests[0]
-        .to_ascii_lowercase()
-        .contains("authorization: bearer loopback-test-secret"));
+    assert!(
+        direct_requests[0]
+            .to_ascii_lowercase()
+            .contains("authorization: bearer loopback-test-secret")
+    );
     let proxy_requests = proxy.join().unwrap();
     assert_eq!(proxy_requests.len(), 2);
-    assert!(proxy_requests
-        .iter()
-        .all(|request| !request.contains("loopback-test-secret")));
+    assert!(
+        proxy_requests
+            .iter()
+            .all(|request| !request.contains("loopback-test-secret"))
+    );
 }
 
 #[test]
